@@ -21,10 +21,6 @@ def list_produto_view(request, id=None):
         produtos = produtos.filter(promocao=promocao)
     if destaque is not None:
         produtos = produtos.filter(destaque=destaque)
-    if categoria is not None:
-        produtos = produtos.filter(categoria=categoria)
-    if fabricante is not None:
-        produtos = produtos.filter(fabricante=fabricante)
     if id is not None:
         produtos = produtos.filter(id=id)
     if categoria is not None:
