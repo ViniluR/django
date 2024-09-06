@@ -107,6 +107,8 @@ def delete_produto_postback(request, id=None):
     return redirect("/produto")
 
 def create_produto_view(request, id=None):
+    Fabricantes = Fabricante.objects.all()
+    Categorias = Categoria.objects.all()
     if request.method == 'POST':
         produto = request.POST.get("Produto")
         destaque = request.POST.get("destaque")
@@ -114,6 +116,9 @@ def create_produto_view(request, id=None):
         msgPromocao = request.POST.get("msgPromocao")
         preco = request.POST.get("preco")
         image = request.POST.get("image")
+        context = { 'produto': produto, 'fabricantes' : Fabricantes, 'categorias' : Categorias}
+        categoria = request.POST.get("CategoriaFk")
+        fabricante = request.POST.get("FabricanteFk")
         print("postback-create")
         print(produto)
         print(destaque)
@@ -121,6 +126,7 @@ def create_produto_view(request, id=None):
         print(msgPromocao)
         print(preco)
         print(image)
+        print()
         try:
             obj_produto = Produto()
             obj_produto.Produto = produto
@@ -133,6 +139,8 @@ def create_produto_view(request, id=None):
                 obj_produto.preco = preco
             obj_produto.criado_em = timezone.now()
             obj_produto.alterado_em = obj_produto.criado_em
+            obj_produto.fabricante = Fabricante.objects.filter(id=fabricante).first()
+            obj_produto.categoria = Categoria.objects.filter(id=categoria).first()
             # Se for anexado arquivo, salva na pasta e guarda nome no objeto
             if request.FILES is not None:
                 num_files = len(request.FILES.getlist('image'))
