@@ -109,6 +109,7 @@ def delete_produto_postback(request, id=None):
 def create_produto_view(request, id=None):
     Fabricantes = Fabricante.objects.all()
     Categorias = Categoria.objects.all()
+    context = {'fabricantes' : Fabricantes, 'categorias' : Categorias}
     if request.method == 'POST':
         produto = request.POST.get("Produto")
         destaque = request.POST.get("destaque")
@@ -116,7 +117,6 @@ def create_produto_view(request, id=None):
         msgPromocao = request.POST.get("msgPromocao")
         preco = request.POST.get("preco")
         image = request.POST.get("image")
-        context = { 'produto': produto, 'fabricantes' : Fabricantes, 'categorias' : Categorias}
         categoria = request.POST.get("CategoriaFk")
         fabricante = request.POST.get("FabricanteFk")
         print("postback-create")
@@ -124,6 +124,8 @@ def create_produto_view(request, id=None):
         print(destaque)
         print(promocao)
         print(msgPromocao)
+        print(categoria)
+        print(fabricante)
         print(preco)
         print(image)
         print()
@@ -156,4 +158,4 @@ def create_produto_view(request, id=None):
         except Exception as e:
             print("Erro inserindo produto: %s" % e)
         return redirect("/produto")
-    return render(request, template_name='produto/produto-create.html',status=200)
+    return render(request, template_name='produto/produto-create.html', context=context, status=200)
