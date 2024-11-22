@@ -3,7 +3,8 @@ from loja.models import *
 from datetime import timedelta, datetime
 from django.utils import timezone
 from django.core.files.storage import FileSystemStorage
-
+from django.contrib.auth.decorators import login_required
+@login_required
 def list_produto_view(request, id=None):
     produto = request.GET.get("produto")
     destaque = request.GET.get("destaque")
